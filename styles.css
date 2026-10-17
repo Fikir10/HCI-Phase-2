@@ -1,0 +1,27 @@
+/* Shared shell + style-guide tokens. Each screen keeps its CSS in its own file, classes prefixed (inv-, add-, list-, meals-, status-). */
+@font-face{font-family:'DM Sans';font-weight:400;src:url(fonts/dm-sans-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:500;src:url(fonts/dm-sans-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:600;src:url(fonts/dm-sans-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:700;src:url(fonts/dm-sans-latin-700-normal.woff2) format('woff2')}
+:root{--primary:#0F5713;--bg:#F7F5F0;--card:#FCFCFC;--text:#1F1F1F;--muted:#5A5A5A;--line:#DAD6CC;
+--low-bg:#FBF2C5;--low-tx:#413000;--out-bg:#F9E1E1;--out-tx:#5A2220}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:#cfcfcf;font:400 28pt 'DM Sans',Arial,sans-serif;color:var(--text)}
+button,input,select{font:inherit;color:inherit}
+#frame{position:relative;width:640px;height:960px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
+#screens{flex:1;min-height:0}
+.panel{display:none;height:100%;flex-direction:column}
+.panel.active{display:flex}
+.ttl{margin:0;font-size:34pt;font-weight:700;line-height:1.15}
+.muted{color:var(--muted)}
+.stub{margin:auto;text-align:center;padding:24px}
+#nav{display:flex;height:92px;background:var(--card);border-top:2px solid var(--line)}
+#nav button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:500;line-height:1.1;cursor:pointer}
+#nav button.on{background:var(--primary);color:#fff}
+#nav svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#toast{position:absolute;left:50%;bottom:108px;transform:translateX(-50%);background:var(--text);color:#fff;padding:8px 20px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;z-index:9}
+#toast.show{opacity:1}
+.stub button{height:56px;padding:0 24px;margin-top:16px;border:2px solid var(--primary);border-radius:14px;background:#fff;color:var(--primary);cursor:pointer}
+/* Full-screen overlay used by the Add Item screen (no nav bar) */
+#add{position:absolute;inset:0;z-index:5;background:var(--bg);display:flex;flex-direction:column}
+#add[hidden]{display:none}

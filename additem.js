@@ -1,0 +1,2 @@
+/* Add Item screen placeholder (Alex). Replace with the real screen; keep App.screens.add = {render(root){...}}. Keep a way to call App.closeAdd(). Prefix classes with add-. */
+App.screens.add={render(root){root.innerHTML='<div class="stub"><h1 class="ttl">Add Item</h1><p class="muted">Under development</p><button id="add-back">Back</button></div>';root.querySelector('#add-back').onclick=App.closeAdd}};
