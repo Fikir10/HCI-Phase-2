@@ -1,1 +1,23 @@
-/* Add Item styles (prefix classes with add-). */
+.add-hd{display:flex;align-items:center;gap:8px;padding:8px 12px}
+#add-back{width: 52px;height: 52px;border: 2px solid var(--primary);border-radius: 50%;
+background: none;color:var(--primary);font-size: var(--fs-title);line-height: 1;
+padding: 0 0 6px;cursor: pointer}
+.add-r{display: flex; align-items: center; gap: 12px; min-height: 68px; padding:0 12px}
+.add-r label{width: 140px; flex: none; font-weight: 600}
+.add-r>input,.add-r select{flex:1; min-width: 0;height: 52px; border: 2px solid var(--primary);
+border-radius: 12px; background: #fff; padding: 0 12px}
+.add-seg{flex: 1; display: flex; gap: 4px}
+.add-seg button{flex: 1; height: 52px; padding: 0; border: 2px solid var(--primary);
+border-radius: 12px; background: #fff; cursor: pointer}
+.add-seg button.on{background: var(--primary); color:#fff}
+.add-st{flex:1; min-width:0; display: flex; align-items: center; gap: 8px}
+.add-st button{width: 52px; height: 52px; border: 2px solid var(--primary); border-radius: 50%;
+background: #fff; color:var(--primary); font-size: var(--fs); line-height: 1; padding: 0;
+cursor: pointer}
+.add-st input{flex: 1; min-width: 0; width:0; height: 52px; text-align: center; border: 2px solid var(--primary);
+border-radius: 12px; background: #fff; -moz-appearance: textfield}
+.add-st input::-webkit-outer-spin-button,.add-st input::-webkit-inner-spin-button{-webkit-appearance: none;
+margin: 0}
+#add-err{margin: 2px 12px; min-height: 40px; font-size: var(--fs-sm); font-weight: 600; color: var(--out-tx)}
+#add-save{margin: 6px 12px; height: 60px; border: 0; border-radius: 12px; background: var(--primary);
+color: #fff; font-weight: 500; cursor: pointer}
