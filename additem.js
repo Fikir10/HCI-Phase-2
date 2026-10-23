@@ -35,3 +35,4 @@ App.screens.add={render(root){
   App.toast(ex?`Added ${q} ${u} to ${ex.name}`:`Added ${n}`)};
  setTimeout(()=>$('#add-name').focus(),50)}};
 })();
+
