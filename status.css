@@ -1,1 +1,201 @@
 /* Inventory Status styles (prefix classes with status-). */
+
+#panel-status {
+  overflow: hidden;
+  background: var(--card);
+}
+
+.status-header {
+  padding: 20px 20px 12px;
+}
+
+.status-header h1 {
+  margin: 0 0 6px;
+}
+
+.status-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.status-summary {
+  display: flex;
+  gap: 12px;
+  margin: 12px 16px 20px;
+}
+
+.status-summary > div {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 12px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.status-summary strong {
+  font-size: var(--fs-title);
+  line-height: 1.1;
+}
+
+.status-summary span {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.status-summary-exp {
+  background: var(--low-bg);
+  color: var(--low-tx);
+}
+
+.status-summary-low {
+  background: var(--out-bg);
+  color: var(--out-tx);
+}
+
+.status-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 16px 24px;
+}
+
+.status-section {
+  margin-bottom: 24px;
+}
+
+.status-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.status-section-heading h2 {
+  margin: 0;
+  font-size: var(--fs);
+  font-weight: 700;
+}
+
+.status-count {
+  background: var(--bg);
+  color: var(--primary);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.status-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 84px;
+  padding: 14px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.status-item:hover {
+  background: var(--bg);
+  border-color: var(--primary);
+}
+
+.status-item:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+
+.status-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.status-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.status-item-name {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.status-item-location {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.status-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex: none;
+}
+
+.status-item-qty {
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+.status-badge {
+  font-size: var(--fs-min);
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.status-badge.expiring,
+.status-badge.low {
+  background: var(--low-bg);
+  color: var(--low-tx);
+}
+
+.status-badge.expired,
+.status-badge.out {
+  background: var(--out-bg);
+  color: var(--out-tx);
+}
+
+.status-arrow {
+  font-size: 26px;
+  color: var(--muted);
+}
+
+.status-empty {
+  padding: 20px 14px;
+  margin: 0;
+  text-align: center;
+  background: var(--bg);
+  color: var(--primary);
+  border-radius: 12px;
+}
