@@ -1,31 +1,196 @@
-#panel-inventory{position:relative}
-.inv-hd{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 12px 4px 16px}
-#inv-add{width:52px;height:52px;border:0;border-radius:50%;background:var(--primary);color:#fff;font-size:var(--fs-title);
-line-height:1;padding:0 0 4px;cursor:pointer}
-#inv-q,.inv-ctl select{height:52px;border:2px solid var(--primary);border-radius:12px;background:#fff;padding:0 12px}
-#inv-q{margin:2px 12px 0;width:calc(100% - 24px)}
-.inv-ctl{display:flex;gap:8px;margin:6px 12px}
-#inv-sort{flex:1;min-width:0}
-#inv-cat{width:190px}
-#inv-list{flex:1;overflow-y:auto;position:relative;border-top:1px solid var(--line)}
-.inv-row{display:flex;align-items:center;gap:6px;min-height:56px;padding:0 8px 0 12px;background:var(--card);border-bottom:1px solid var(--line)}
-.inv-row.new{background:#E3EEDF}
-.inv-nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.inv-st{display:flex;align-items:center}
-.inv-st button{width:48px;height:48px;border:2px solid var(--primary);border-radius:50%;background:#fff;color:var(--primary);font-size:var(--fs);line-height:1;padding:0;cursor:pointer}
-.inv-q{min-width:88px;text-align:center}
-.inv-amt{min-width:184px;height:48px;border:2px solid var(--primary);border-radius:24px;background:#fff;padding:0 12px;cursor:pointer}
-.inv-amt::after{content:"";display:inline-block;margin-left:10px;border:6px solid transparent;border-top-color:var(--primary);border-bottom:0;vertical-align:middle}
-.inv-slot{width:90px;flex:none;text-align:center}
-.inv-bd{display:inline-block;padding:0 12px;border-radius:999px;font-weight:600;font-size:var(--fs-sm)}
-.inv-bd.low{background:var(--low-bg);color:var(--low-tx)}
-.inv-bd.out{background:var(--out-bg);color:var(--out-tx)}
-.inv-gh{background:#E9E5DA;font-weight:600;padding:0 12px}
-.inv-none{padding:16px}
-#inv-sheet{position:absolute;left:0;right:0;bottom:0;z-index:4;background:var(--card);border-top:3px solid var(--primary);padding:10px 12px 12px;box-shadow:0 -4px 12px rgba(0,0,0,.15)}
-#inv-sheet[hidden]{display:none}
-.inv-sh-t{margin-bottom:8px}
-.inv-sh-b{display:flex;gap:8px}
-.inv-sh-b button{flex:1;height:56px;border:2px solid var(--primary);border-radius:12px;background:#fff;color:var(--primary);font-weight:600;cursor:pointer}
-.inv-sh-x{width:100%;height:52px;margin-top:8px;border:0;background:none;color:var(--muted);text-decoration:underline;cursor:pointer}
+/* Inventory (Home/Start) Screen */
 
+#panel-inventory{
+    position: relative;
+}
+.inv-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px 12px 4px 16px
+}
+.inv-add{
+    width: 52px;
+    height: 52px;
+    padding: 0 0 4px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size:var(--fs-title);
+    line-height: 1;
+    cursor: pointer;
+}
+.inv-search,
+.inv-sort,
+.inv-filter {
+    height: 52px;
+    padding: 0 12px;
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+}
+.inv-search {
+    width: calc(100% - 24px);
+    margin: 2px 12px 0;
+}
+.inv-controls {
+    display: flex;
+    gap: 8px;
+    margin: 6px 12px;
+}
+.inv-sort {
+    flex: 1;
+    min-width: 0;
+} 
+.inv-filter {
+    width: 190px;
+}
+.inv-list {
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid var(--line);
+}   
+.inv-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 56px;
+    padding: 0 8px 0 12px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+}
+.inv-highlight {
+    background: #E3EEDF;
+}
+.inv-name {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.inv-stepper {
+    display: flex;
+    align-items: center;
+}
+.inv-stepper button {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    font-size: var(--fs);
+    line-height: 1;
+    cursor: pointer;
+}
+.inv-qty {
+    min-width: 88px;
+    text-align: center;
+}
+.inv-amount {
+    min-width: 184px;
+    height: 48px;
+    padding: 0 12px;
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 24px;
+    cursor: pointer;
+}
+.inv-amount::after {
+    content: "";
+    display: inline-block;
+    margin-left: 10px;
+    border: 6px solid transparent;
+    border-top-color: var(--primary);
+    border-bottom: 0;
+    vertical-align: middle;
+}
+.inv-slot {
+    width: 90px;
+    flex: none;
+    text-align: center;
+}
+.inv-badge {
+    display: inline-block;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+}
+.inv-badge.low {
+    background: var(--low-bg);
+    color: var(--low-tx);
+}
+.inv-badge.out {
+    background: var(--out-bg);
+    color: var(--out-tx);
+}
+.inv-date {
+    font-size: var(--fs-sm);
+    color: var(--muted);
+}
+.inv-group {
+    padding: 0 12px;
+    background: #E9E5DA;
+    font-weight: 600;
+}
+.inv-empty {
+    padding: 16px;
+    font-size: var(--fs-sm);
+    color: var(--muted);
+}
+.inv-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    padding: 10px 12px 12px;
+    background: var(--card);
+    border-top: 3px solid var(--primary);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+}
+.inv-sheet[hidden] {
+    display: none;
+}
+.inv-sheet-title {
+    margin-bottom: 8px;
+}
+.inv-sheet-options {
+    display: flex;
+    gap: 8px;
+}
+.inv-sheet-options button {
+    flex: 1;
+    height: 56px;
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.inv-sheet-cancel {
+    width: 100%;
+    height: 52px;
+    margin-top: 8px;
+    background: none;
+    color: var(--muted);
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.inv-add:focus-visible,
+.inv-search:focus-visible,
+.inv-sort:focus-visible,
+.inv-filter:focus-visible,
+.inv-stepper button:focus-visible,
+.inv-amount:focus-visible,
+.inv-sheet button:focus-visible {
+    outline: 3px solid #b77700;
+    outline-offset: 2px;
+}
