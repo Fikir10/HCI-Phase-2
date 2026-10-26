@@ -1,10 +1,10 @@
-/* Meal Suggestions screen. */
+/* Meal Suggestions screen - Sydney */
 (() => {
     // Hardcoded recipes matching items in data.js
     const RECIPES = [
         {
-            id: "r1"
-            name: "Classic Chiecken Pasta",
+            id: "r1",
+            name: "Classic Chicken Pasta",
             time: "20 min", 
             tags: ["dinner"],
             instructions: "Boil spaghetti until tender. Heat olive oil, cook sliced chicken breast, and stir in pasta sauce. Toss pasta with sauce and chicken.",

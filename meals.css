@@ -1,1 +1,205 @@
-/* Meal Suggestions styles (prefix classes with meals-). */
+/* Meal Suggestions styles - Sydney */
+
+#panel-meals {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.meals-header {
+  padding: 16px 20px 8px;
+}
+
+.meals-subtitle {
+  margin-top: 4px;
+}
+
+/* Filter bar */
+.meals-filters {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.meals-chip {
+  min-height: 48px;
+  padding: 0 16px;
+  background: white;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: 24px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  flex: none;
+}
+
+.meals-chip.on {
+  background: var(--primary);
+  color: white;
+}
+
+/* Recipe list container */
+.meals-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Recipe card */
+.meals-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meals-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.meals-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.meals-title {
+  font-size: var(--fs);
+  font-weight: 700;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.meals-meta {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.meals-badge {
+  font-size: var(--fs-min);
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex: none;
+}
+
+.meals-badge.ready {
+  background: #E3EEDF;
+  color: var(--primary);
+}
+
+.meals-badge.missing {
+  background: var(--out-bg);
+  color: var(--out-tx);
+}
+
+/* Expandable recipe drawer / details */
+.meals-details {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meals-ing-title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  margin: 0;
+}
+
+.meals-ing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meals-ing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-sm);
+  padding: 4px 0;
+}
+
+.meals-ing-status {
+  font-size: var(--fs-min);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.meals-ing-status.have {
+  color: var(--primary);
+}
+
+.meals-ing-status.need {
+  background: var(--out-bg);
+  color: var(--out-tx);
+}
+
+.meals-instructions {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: 1.3;
+  margin: 4px 0 0;
+  background: var(--bg);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Card buttons */
+.meals-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.meals-btn {
+  flex: 1;
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.meals-btn-shop {
+  background: white;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.meals-btn-cook {
+  background: var(--primary);
+  color: white;
+}
+
+.meals-empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.meals-chip:focus-visible,
+.meals-btn:focus-visible {
+  outline: 3px solid #b77700;
+  outline-offset: 2px;
+}
