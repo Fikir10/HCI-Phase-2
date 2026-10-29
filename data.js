@@ -1,4 +1,4 @@
-/* Shared data layer (Alex). Everyone reads/writes through Data. Never touch localStorage directly. Data.reset() restores demo data. */
+/* Shared data layer (Fikir). Everyone reads/writes through Data. Never touch localStorage directly. Data.reset() restores demo data. */
 const Data=(()=>{
 const TODAY='2026-10-17'; // fixed demo date so "expiring soon" stays stable
 // name, location, qty, unit, lowAt (low when qty <= lowAt), expires
