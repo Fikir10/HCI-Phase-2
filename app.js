@@ -1,4 +1,4 @@
-/* Shell (Alex): tab nav, Add Item overlay, toast. Each screen registers App.screens.<tab>={render(root){...}}; render runs every time the tab is opened. */
+/* Shell (Fikir): tab nav, Add Item overlay, toast. Each screen registers App.screens.<tab>={render(root){...}}; render runs every time the tab is opened. */
 const App={screens:{},
  go(t){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+t));
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));

@@ -3,12 +3,13 @@
 @font-face{font-family:'DM Sans';font-weight:500;src:url(fonts/dm-sans-latin-500-normal.woff2) format('woff2')}
 @font-face{font-family:'DM Sans';font-weight:600;src:url(fonts/dm-sans-latin-600-normal.woff2) format('woff2')}
 @font-face{font-family:'DM Sans';font-weight:700;src:url(fonts/dm-sans-latin-700-normal.woff2) format('woff2')}
-:root{--primary:#0F5713;--bg:#F7F5F0;--card:#FCFCFC;--text:#1F1F1F;--muted:#5A5A5A;--line:#DAD6CC;
+:root{--primary:#0F5713;--bg:#F7F5F0;--card:#FCFCFC;--text:#1F1F1F;--muted:#5A5A5A;--line:#6F6F6F;
 --fs:25pt;--fs-sm:22pt;--fs-min:19pt;--fs-title:30pt;
 --low-bg:#FBF2C5;--low-tx:#413000;--out-bg:#F9E1E1;--out-tx:#5A2220}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:#cfcfcf;font:400 var(--fs) 'DM Sans',Arial,sans-serif;color:var(--text)}
 button,input,select{font:inherit;color:inherit}
+::placeholder{color:var(--muted)}
 #frame{position:relative;width:640px;height:960px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
 #screens{flex:1;min-height:0}
 .panel{display:none;height:100%;flex-direction:column}
