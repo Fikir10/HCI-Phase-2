@@ -1,4 +1,4 @@
-/* Inventory Home Screen - Fikir */
+/* Inventory Home Screen - Fikir / Kyra */
 /* Count units (Ct, Slices, Loaf) use a one-tap -/+ stepper.
    Measured units (Gal, Oz, Lb) open a "how much did you use?" panel. */
 
