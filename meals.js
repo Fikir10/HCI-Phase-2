@@ -95,6 +95,7 @@
             inStock
         };
     }
+
     function addMissingToShopping(recipeId) {
         const recipe = RECIPES.find(r => r.id === recipeId);
         const { missing } = evaluateRecipe(recipe);
@@ -121,12 +122,12 @@
         });
 
         if (addedCount > 0) {
-            App.toast(`Added ${addedCount} missing item${addedCount > 1 ? "s" : ""} to Shopping List!`);
+            App.toast(`Added ${addedCount} item${addedCount > 1 ? "s" : ""} to Shopping List!`);
         } else {
-            App.toast("Missing items are already on your Shopping List.");
+            App.toast("Already on your Shopping List.");
         }
 
-        render(document.getElementById("panel-meals"));
+        render(document.getElementById("panel-meals"), true);
     }
 
     function cookRecipe(recipeId) {
@@ -134,7 +135,7 @@
         const { canMake } = evaluateRecipe(recipe);
 
         if (!canMake) {
-            App.toast("Cannot cook: missing required ingredients.");
+            App.toast("Can't cook yet: ingredients are missing.");
             return;
         }
 
@@ -145,11 +146,15 @@
             }
         });
 
-        App.toast(`Cooked ${recipe.name}! Ingredients deducted.`);
-        render(document.getElementById("panel-meals"));
+        App.toast(`Cooked ${recipe.name}. Inventory updated.`);
+        render(document.getElementById("panel-meals"), true);
     }
 
-    function render(root) {
+    function render(root, preserveScroll = false) {
+        // Capture current scroll position if requested (fixed typo here)
+        const oldContent = root.querySelector(".meals-content");
+        const scrollPos = oldContent && preserveScroll ? oldContent.scrollTop : 0;
+
         const evaluated = RECIPES.map(r => ({
             ...r,
             eval: evaluateRecipe(r)
@@ -171,7 +176,7 @@
         <div class="meals-filters" role="tablist" aria-label="Recipe Filters">
             <button class="meals-chip ${activeFilter === 'all' ? 'on' : ''}" data-filter="all">All (${evaluated.length})</button>
             <button class="meals-chip ${activeFilter === 'ready' ? 'on' : ''}" data-filter="ready">Ready to Cook</button>
-            <button class="meals-chip ${activeFilter === 'quick' ? 'on' : ''}" data-filter="quick">&lt; 15 min</button>
+            <button class="meals-chip ${activeFilter === 'quick' ? 'on' : ''}" data-filter="quick">< 15 min</button>
             <button class="meals-chip ${activeFilter === 'beginner' ? 'on' : ''}" data-filter="beginner">Beginner</button>
         </div>
 
@@ -230,10 +235,16 @@
         </div>
         `;
 
+        // Restore scroll position if requested (fixed typo here too)
+        const newContent = root.querySelector(".meals-content");
+        if (newContent && preserveScroll) {
+            newContent.scrollTop = scrollPos;
+        }
+
         root.querySelectorAll(".meals-chip").forEach(btn => {
             btn.onclick = () => {
                 activeFilter = btn.dataset.filter;
-                render(root);
+                render(root, false); // Resets scroll back to top on filter change
             };
         });
 
@@ -241,7 +252,7 @@
             cardTop.onclick = () => {
                 const id = cardTop.dataset.toggle;
                 expandedRecipeId = expandedRecipeId === id ? null : id;
-                render(root);
+                render(root, true); // Keeps scroll position on card expansion
             };
         });
 
