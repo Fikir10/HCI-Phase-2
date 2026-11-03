@@ -83,7 +83,7 @@
 
     /* Recipe Inventory Checks and Actions */
 
-    // Evalutes recipe against current inventory levels to find availabs vs missing ingredients
+    //Evaluates recipe against current inventory levels to find available vs missing ingredients
     function evaluateRecipe(recipe) {
         const inv = Data.inv();
         const missing = [];
