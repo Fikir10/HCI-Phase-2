@@ -1,43 +1,63 @@
-/* Shopping List Styles - Raiya */
+/* Shopping List Styles */
 
 .list-header {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 16px;
+    border-bottom: 2px solid var(--line);
+}
+
+.list-header-top {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    padding: 24px;
-    padding: 24px;
-    border-bottom: 2px solid var(--line);
+    width: 100%;
 }
 
 .list-header h1 {
     font-size: var(--fs-title);
     margin: 0;
+    white-space: nowrap;
 }
 
 .list-header p {
     font-size: var(--fs-sm);
     color: var(--muted);
-    margin: 6px 0 0;
+    margin: 4px 0 0;
 }
 
-.list-add {
+.list-header-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.list-add, 
+.list-templates {
+    flex: 1;
     background: var(--primary);
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 12px 16px;
-    min-height: 56px;
+    padding: 0 12px;
+    min-height: 48px;
+    height: 48px;
     font-size: var(--fs);
     font-weight: bold;
     cursor: pointer;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Content Container & Section Headers */
 .list-content {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 16px 24px;
     padding: 16px 24px;
 }
 
@@ -59,13 +79,23 @@
     color: var(--muted);
 }
 
+/* List Items & Rollover States */
 .list-row {
     display: flex;
     align-items: center;
     gap: 12px;
     min-height: 70px;
-    min-height: 70px;
     border-bottom: 1px solid var(--line);
+}
+
+.list-rolled-over {
+    background-color: rgba(183, 119, 0, 0.08);
+    border-left: 5px solid var(--primary);
+    box-sizing: border-box;
+}
+
+.list-rolled-over .list-check {
+    padding-left: 8px;
 }
 
 .list-check {
@@ -74,7 +104,6 @@
     gap: 12px;
     flex: 1;
     min-width: 0;
-    min-height: 60px;
     min-height: 60px;
     cursor: pointer;
 }
@@ -121,6 +150,7 @@
     padding: 18px 0;
 }
 
+/* Item Input Form */
 .list-form {
     display: flex;
     flex-direction: column;
@@ -207,6 +237,7 @@
 .list-form select:focus-visible,
 .list-form button:focus-visible,
 .list-add:focus-visible,
+.list-templates:focus-visible,
 #list-transfer:focus-visible {
     outline: 3px solid #b77700;
     outline-offset: 3px;
