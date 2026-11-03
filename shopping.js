@@ -53,7 +53,7 @@
 
     /*  Quick Lists / Templates Overlay */   
 
-    function openTemplateScreen(listRoot) {
+function openTemplateScreen(listRoot) {
         const overlay = document.getElementById("add");
 
         overlay.innerHTML = `
@@ -62,19 +62,14 @@
                 <h1 class="ttl">Load Quick List</h1>
             </header>
 
-            <div class="meals-form-body" style="display: flex; flex-direction: column; gap: 12px; padding-top: 12px;">
-                <p style="color: var(--muted); font-size: var(--fs-sm);">Select a pre-made shopping list to instantly add its items to your active list:</p>
+            <div class="meals-form-body" style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px;">
+                <p style="color: var(--muted); font-size: var(--fs-sm); margin-bottom: 4px;">Tap any list below to instantly add its items:</p>
                 
                 ${SHOPPING_TEMPLATES.map(tpl => `
-                    <div class="meals-card" style="cursor: pointer;" data-template-id="${tpl.id}">
-                        <div class="meals-card-top" style="align-items: center; display: flex; justify-content: space-between;">
-                            <div style="flex: 1; min-width: 0; padding-right: 12px;">
-                                <h2 class="meals-title">${escapeHTML(tpl.name)}</h2>
-                                <div class="meals-meta" style="margin-top: 4px; color: var(--muted); font-size: var(--fs-sm);">
-                                    ${tpl.items.map(i => `${i.qty} ${i.unit} ${i.name}`).join(", ")}
-                                </div>
-                            </div>
-                            <button type="button" class="meals-btn meals-btn-cook" style="flex: none; min-height: 40px; padding: 0 16px;">Load</button>
+                    <div class="meals-card" style="cursor: pointer; padding: 12px 16px; gap: 4px;" data-template-id="${tpl.id}">
+                        <h2 class="meals-title" style="font-size: var(--fs); margin-bottom: 2px;">${escapeHTML(tpl.name)}</h2>
+                        <div class="meals-meta" style="color: var(--muted); font-size: var(--fs-sm); line-height: 1.3; white-space: normal;">
+                            ${tpl.items.map(i => `${i.qty} ${i.unit} ${i.name}`).join(", ")}
                         </div>
                     </div>
                 `).join("")}
@@ -83,7 +78,7 @@
 
         overlay.hidden = false;
 
-        // Back button to close template overlay
+        // Back button handler to close template overlay
         overlay.querySelector(".meals-form-back").onclick = () => App.closeAdd();
 
         // Template selection handlers
@@ -94,10 +89,13 @@
 
                 if (template) {
                     let addedCount = 0;
-                    template.items.forEach(item => {
+                    template.items.forEach((item, index) => {
                         const existing = Data.shop().find(s => s.name.toLowerCase() === item.name.toLowerCase() && !s.purchased);
                         if (!existing) {
-                            Data.addShop(item);
+                            Data.addShop({
+                                ...item,
+                                id: `shop_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 4)}`
+                            });
                             addedCount++;
                         }
                     });
@@ -368,8 +366,13 @@
         root.querySelectorAll(".list-check input").forEach(box => {
             box.onchange = () => {
                 const id = box.dataset.id;
+                const isChecked = box.checked;
 
-                Data.togglePurchased(id);
+                // Find the item in data and explicitly set its purchased state
+                const item = Data.shop().find(s => String(s.id) === String(id));
+                if (item) {
+                    item.purchased = isChecked;
+                }
 
                 render(root);
             };
