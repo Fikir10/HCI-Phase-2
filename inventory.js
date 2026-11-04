@@ -1,16 +1,18 @@
-/* Inventory Home Screen - Fikir / Kyra */
+/* Inventory Home Screen */
 /* Count units (Ct, Slices, Loaf) use a one-tap -/+ stepper.
    Measured units (Gal, Oz, Lb) open a "how much did you use?" panel. */
 
 (() => {
     const MEASURED_UNITS = ["Gal", "Oz", "Lb"];
 
+    // Order priority for location storing
     const LOCATION_ORDER = {
         fridge: 0,
         pantry: 1,
         freezer: 2
     };
 
+    // Internal state tracking
     const state = {
         sort: "attention",
         filter: "all",
@@ -22,7 +24,7 @@
     let panel = null;
     let sheetItemId = null;
 
-    /* ---------- Helpers ---------- */
+    /*  Helper Functions */
 
     const escapeHTML = value =>
         String(value).replace(/[&<>"']/g, char => ({
@@ -37,6 +39,7 @@
 
     const round = value => Number(value.toFixed(2));
 
+    // Calculate remaining days before item expires
     function daysLeft(item) {
         if (!item.exp) {
             return 999;
@@ -50,6 +53,7 @@
         return Data.status(item) !== "ok" || daysLeft(item) <= 3;
     }
 
+    // Assign priority score for soring items needing attention
     function attentionScore(item) {
         const status = Data.status(item);
 
@@ -64,13 +68,14 @@
         return daysLeft(item) <= 3 ? 2 : 3;
     }
 
+    // Formats ISO dat string to M/D format
     function formatDate(isoDate) {
         const [, month, day] = isoDate.split("-");
 
         return `${Number(month)}/${Number(day)}`;
     }
 
-    /* ---------- Sorting ---------- */
+    /* Sorting */
 
     const SORTERS = {
         attention: (a, b) =>
@@ -89,13 +94,15 @@
         name: (a, b) => a.name.localeCompare(b.name)
     };
 
-    /* ---------- Rows ---------- */
+    /*  Rows (render & update) */
 
+    // Generate HTML string for an individual inventory row
     function rowHTML(item) {
         const status = Data.status(item);
         const name = escapeHTML(item.name);
         const amount = `${round(item.qty)} ${escapeHTML(item.unit)}`;
 
+        // // Choice between trigger button or +/- stepper control
         const control = MEASURED_UNITS.includes(item.unit)
             ? `
                 <button
@@ -145,6 +152,7 @@
         `.trim();
     }
 
+    // Replaces an updated item's row element directly in the DOM
     function replaceRow(id) {
         const row = panel.querySelector(`.inv-row[data-id="${id}"]`);
 
@@ -153,6 +161,7 @@
         }
     }
 
+    // Update top summary count & 'attention' badge status
     function updateSummary() {
         const items = Data.inv();
         const attention = items.filter(needsAttention).length;
@@ -165,6 +174,7 @@
         button.setAttribute("aria-pressed", state.attentionOnly);
     }
 
+    // Filter, sort, render the inventory list
     function renderList() {
         closeSheet();
 
@@ -202,7 +212,7 @@
         updateSummary();
     }
 
-    /* ---------- "How much did you use?" panel ---------- */
+    /* "How much did you use?" panel */
 
     function openSheet(id) {
         const item = Data.get(id);
@@ -220,6 +230,7 @@
         sheetItemId = null;
     }
 
+    // Applies partial or full fraction usage to measured item quantities
     function applyUse(fraction) {
         const item = Data.get(sheetItemId);
         const remaining = fraction >= 1 ? 0 : round(item.qty * (1 - fraction));
@@ -231,7 +242,7 @@
         closeSheet();
     }
 
-    /* ---------- Screen ---------- */
+    /* Screen Creation */
 
     function buildScreen(root) {
         root.innerHTML = `
@@ -312,6 +323,7 @@
             renderList();
         };
 
+        // Stepper and click handling
         root.querySelector(".inv-list").onclick = event => {
             const button = event.target.closest("button");
 
@@ -332,6 +344,7 @@
             updateSummary();
         };
 
+        // Click handling
         root.querySelector(".inv-sheet").onclick = event => {
             const button = event.target.closest("button");
 
@@ -362,7 +375,7 @@
         renderList();
     }
 
-    /* Call before App.go("inventory") after adding an item to scroll to and highlight it */
+    // Call before App.go("inventory") after adding an item to scroll to and highlight it
     function reveal(id) {
         state.query = "";
         state.filter = "all";

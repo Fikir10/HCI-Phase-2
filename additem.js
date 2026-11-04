@@ -1,4 +1,4 @@
-/* Add Item screen (Fikir). */
+/* Add Item screen */
 /* Adding an item that already exists (same unit & item) restocks it instead
    of creating a duplicate */
 
@@ -6,6 +6,7 @@
     /* Amount step per unit & defaults as (amount, low at) */
     const STEP = { Ct: 1, Slices: 1, Loaf: 1, Gal: 0.5, Lb: 0.5, Oz: 4 };
 
+    // Default quantity per unit
     const DEFAULTS = {
         Ct: [2, 1],
         Slices: [8, 2],
@@ -24,14 +25,18 @@
         ["Slices", "Slices"]
     ];
 
+    // Round to 2 decimal places
     const round = value => Number(value.toFixed(2));
  
+    // Element selector helper
     const field = (root, id) => root.querySelector(`#${id}`);
  
+    // Display error messages
     function showError(root, message) {
         field(root, "add-err").textContent = message;
     }
  
+    // Stepper HTML generator
     function stepperHTML(id, value, label) {
         return `
             <span class="add-stepper">
@@ -61,6 +66,7 @@
         `;
     }
  
+    // Save or restock item
     function saveItem(root, location) {
         const name = field(root, "add-name").value.trim();
         const unit = field(root, "add-unit").value;
@@ -77,6 +83,7 @@
             return;
         }
  
+        // Check if missing item exists
         const existing = Data.inv().find(item =>
             item.name.toLowerCase() === name.toLowerCase() &&
             item.unit === unit
@@ -110,6 +117,7 @@
  
         field(root, "add-back").onclick = () => App.closeAdd();
  
+        // Location toggles
         root.querySelectorAll(".add-segment button").forEach(button => {
             button.onclick = () => {
                 location = button.dataset.location;
@@ -120,6 +128,7 @@
             };
         });
  
+        // Update defaults on unit change
         field(root, "add-unit").onchange = event => {
             const [amount, lowAt] = DEFAULTS[event.target.value];
  
@@ -127,6 +136,7 @@
             field(root, "add-low").value = lowAt;
         };
  
+        // Click handlers
         root.querySelectorAll(".add-stepper button").forEach(button => {
             button.onclick = () => {
                 const input = field(root, button.dataset.target);
@@ -141,7 +151,8 @@
  
         setTimeout(() => field(root, "add-name").focus(), 50);
     }
- 
+
+    // Render form HTML
     function render(root) {
         root.innerHTML = `
             <header class="add-header">

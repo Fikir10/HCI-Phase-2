@@ -8,7 +8,7 @@
 --low-bg:#FBF2C5;--low-tx:#413000;--out-bg:#F9E1E1;--out-tx:#5A2220}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:#cfcfcf;font:400 var(--fs) 'DM Sans',Arial,sans-serif;color:var(--text)}
-button,input,select{font:inherit;color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
 ::placeholder{color:var(--muted)}
 #frame{position:relative;width:640px;height:960px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
 #screens{flex:1;min-height:0}

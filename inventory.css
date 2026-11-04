@@ -1,9 +1,10 @@
-/* Inventory Home Screen Styles - Fikir / Kyra */
+/* Inventory Home Screen Styles */
 
 #panel-inventory {
     position: relative;
 }
 
+/* Header & Search */
 .inv-header {
     display: flex;
     justify-content: space-between;
@@ -39,6 +40,7 @@
     margin: 2px 12px 0;
 }
 
+/*  Controls & Filter Bar */
 .inv-controls {
     display: flex;
     gap: 8px;
@@ -54,6 +56,7 @@
     width: 190px;
 }
 
+/* Inventory List Container & Row Layout */
 .inv-list {
     position: relative;
     flex: 1;
@@ -83,6 +86,7 @@
     text-overflow: ellipsis;
 }
 
+/*  Quantity Controls & Stepper*/
 .inv-stepper {
     display: flex;
     align-items: center;
@@ -132,6 +136,7 @@
     text-align: center;
 }
 
+/* Status Badges & Group Headers*/
 .inv-badge {
     display: inline-block;
     padding: 0 12px;
@@ -191,6 +196,7 @@
     color: var(--muted);
 }
 
+/* Bottom Sheet Overlay */
 .inv-sheet {
     position: absolute;
     left: 0;

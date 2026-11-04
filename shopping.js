@@ -1,37 +1,140 @@
-
-/* Shopping List - Raiya */
+/* Shopping List */
 
 (() => {
     let adding = false;
 
+    //Pre-made quick shopping list templates for instant loading 
+    const SHOPPING_TEMPLATES = [
+        {
+            id: "t1",
+            name: "Weekly Staples",
+            items: [
+                { name: "Whole Milk", qty: 1, unit: "Gal", cat: "fridge" },
+                { name: "Eggs", qty: 12, unit: "Ct", cat: "fridge" },
+                { name: "Wheat Bread", qty: 1, unit: "Loaf", cat: "pantry" }
+            ]
+        },
+        {
+            id: "t2",
+            name: "Taco Night",
+            items: [
+                { name: "Canned Beans", qty: 2, unit: "Ct", cat: "pantry" },
+                { name: "Cheddar Cheese", qty: 0.25, unit: "Lb", cat: "fridge" }
+            ]
+        },
+        {
+            id: "t3",
+            name: "Breakfast Essentials",
+            items: [
+                { name: "Rolled Oats", qty: 1, unit: "Ct", cat: "pantry" },
+                { name: "Greek Yogurt", qty: 2, unit: "Ct", cat: "fridge" },
+                { name: "Berries", qty: 1, unit: "Ct", cat: "fridge" }
+            ]
+        },
+        {
+            id: "t4",
+            name: "Baking Supplies",
+            items: [
+                { name: "All-Purpose Flour", qty: 1, unit: "Lb", cat: "pantry" },
+                { name: "Granulated Sugar", qty: 1, unit: "Lb", cat: "pantry" },
+                { name: "Unsalted Butter", qty: 1, unit: "Ct", cat: "fridge" }
+            ]    
+        }
+    ];
+
     const escapeHTML = value =>
         String(value).replace(/[&<>"']/g, char => ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
+            "&": "&amp",
+            "<": "&lt",
+            ">": "&gt",
             '"': "&quot;",
             "'": "&#39;"
         })[char]);
 
+    /*  Quick Lists / Templates Overlay */   
+
+function openTemplateScreen(listRoot) {
+        const overlay = document.getElementById("add");
+
+        overlay.innerHTML = `
+            <header class="meals-form-header">
+                <button type="button" class="meals-form-back" aria-label="Back">‹</button>
+                <h1 class="ttl">Load Quick List</h1>
+            </header>
+
+            <div class="meals-form-body" style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px;">
+                <p style="color: var(--muted); font-size: var(--fs-sm); margin-bottom: 4px;">Tap any list below to instantly add its items:</p>
+                
+                ${SHOPPING_TEMPLATES.map(tpl => `
+                    <div class="meals-card" style="cursor: pointer; padding: 12px 16px; gap: 4px;" data-template-id="${tpl.id}">
+                        <h2 class="meals-title" style="font-size: var(--fs); margin-bottom: 2px;">${escapeHTML(tpl.name)}</h2>
+                        <div class="meals-meta" style="color: var(--muted); font-size: var(--fs-sm); line-height: 1.3; white-space: normal;">
+                            ${tpl.items.map(i => `${i.qty} ${i.unit} ${i.name}`).join(", ")}
+                        </div>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+
+        overlay.hidden = false;
+
+        // Back button handler to close template overlay
+        overlay.querySelector(".meals-form-back").onclick = () => App.closeAdd();
+
+        // Template selection handlers
+        overlay.querySelectorAll("[data-template-id]").forEach(card => {
+            card.onclick = () => {
+                const tplId = card.dataset.templateId;
+                const template = SHOPPING_TEMPLATES.find(t => t.id === tplId);
+
+                if (template) {
+                    let addedCount = 0;
+                    template.items.forEach((item, index) => {
+                        const existing = Data.shop().find(s => s.name.toLowerCase() === item.name.toLowerCase() && !s.purchased);
+                        if (!existing) {
+                            Data.addShop({
+                                ...item,
+                                id: `shop_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 4)}`
+                            });
+                            addedCount++;
+                        }
+                    });
+
+                    App.closeAdd();
+                    render(listRoot);
+                    App.toast(`Loaded "${template.name}" (${addedCount} items added)`);
+                }
+            };
+        });
+    }
+
+    /*  Main Shopping List Screen */
+
     function render(root) {
         const items = Data.shop();
         const purchased = items.filter(item => item.purchased);
-        const remaining = items.filter(item => !item.purchased);
+        const remaining = items.filter(item => !item.purchased && !item.rolledOver);
+        const rolledOver = items.filter(item => !item.purchased && item.rolledOver);
+
+        const totalRemaining = remaining.length + rolledOver.length;
 
         root.innerHTML = `
             <header class="list-header">
-                <div>
-                    <h1>Shopping List</h1>
-                    <p>${remaining.length} items remaining</p>
+                <div class="list-header-top">
+                    <div>
+                        <h1>Shopping List</h1>
+                        <p>${totalRemaining} items remaining</p>
+                    </div>
                 </div>
-
-                <button class="list-add" type="button">
-                    + Add Item
-                </button>
+                <div class="list-header-actions">
+                    <button class="list-templates" type="button">Quick Lists</button>
+                    <button class="list-add" type="button">+ Add Item</button>
+                </div>
             </header>
 
             <div class="list-content">
 
+                <!-- Inline Add Item Form -->
                 ${adding ? `
                     <form id="list-form" class="list-form">
                         <h2>Add Shopping Item</h2>
@@ -86,6 +189,7 @@
 
                             <button
                                 type="submit"
+                                id="list-save"
                                 class="list-save"
                             >
                                 Save Item
@@ -94,6 +198,7 @@
                     </form>
                 ` : ""}
 
+                <!-- Items to Buy Section -->
                 <div class="list-section">
                     <h2>Items to Buy</h2>
                     <span>${remaining.length}</span>
@@ -134,6 +239,27 @@
                     }
                 </div>
 
+                <!-- Saved for Next Trip (Rolled Over) Section -->
+                ${rolledOver.length > 0 ? `
+                    <div class="list-section">
+                        <h2 style="margin: 0;">Saved for Next Trip</h2>
+                        <span>${rolledOver.length}</span>
+                    </div>
+                    <div class="list-items">
+                        ${rolledOver.map(item => `
+                            <div class="list-row list-rolled-over">
+                                <label class="list-check">
+                                    <input type="checkbox" data-id="${escapeHTML(item.id)}">
+                                    <span class="list-name">${escapeHTML(item.name)}</span>
+                                </label>
+                                <span class="list-amount">${item.qty} ${escapeHTML(item.unit)}</span>
+                                <button class="list-remove" type="button" data-id="${escapeHTML(item.id)}">×</button>
+                            </div>
+                        `).join("")}
+                    </div>
+                ` : ""}
+
+                <!-- Purchased Items Section -->
                 ${purchased.length > 0 ? `
                     <div class="list-section">
                         <h2>Purchased</h2>
@@ -174,6 +300,7 @@
 
             </div>
 
+            <!-- Footer Action Bar -->
             <footer class="list-footer">
                 <button
                     id="list-transfer"
@@ -184,6 +311,11 @@
                 </button>
             </footer>
         `;
+
+        // Event Handlers
+        root.querySelector(".list-templates").onclick = () => {
+            openTemplateScreen(root);
+        };
 
         root.querySelector(".list-add").onclick = () => {
             adding = !adding;
@@ -230,16 +362,23 @@
             };
         }
 
+        // Toggle checkbox status
         root.querySelectorAll(".list-check input").forEach(box => {
             box.onchange = () => {
                 const id = box.dataset.id;
+                const isChecked = box.checked;
 
-                Data.togglePurchased(id);
+                // Find the item in data and explicitly set its purchased state
+                const item = Data.shop().find(s => String(s.id) === String(id));
+                if (item) {
+                    item.purchased = isChecked;
+                }
 
                 render(root);
             };
         });
 
+        // Remove item from shopping list
         root.querySelectorAll(".list-remove").forEach(button => {
             button.onclick = () => {
                 const id = button.dataset.id;
@@ -252,13 +391,15 @@
             };
         });
 
+        // Transfer purchased items to inventory & rollover unbought items
         root.querySelector("#list-transfer").onclick = () => {
-            const bought = Data.shop().filter(item => item.purchased);
+            const items = Data.shop();
+            const bought = items.filter(item => item.purchased);
+            const unbought = items.filter(item => !item.purchased);
 
-            if (bought.length === 0) {
-                return;
-            }
+            if (bought.length === 0) return;
 
+            // Transfer bought items to Inventory
             bought.forEach(item => {
                 const existing = Data.inv().find(inv =>
                     inv.name.toLowerCase() === item.name.toLowerCase() &&
@@ -278,13 +419,20 @@
                         exp: null
                     });
                 }
-
                 Data.removeShop(item.id);
             });
 
-            render(root);
+            // Rollover unpurchased items for the next trip
+            if (unbought.length > 0) {
+                unbought.forEach(item => {
+                    item.rolledOver = true; 
+                });
+                App.toast(`Moved ${bought.length} items to Stock & rolled over ${unbought.length} items for next trip!`);
+            } else {
+                App.toast("Purchased items added to inventory!");
+            }
 
-            App.toast("Purchased items added to inventory!");
+            render(root);
         };
     }
 
