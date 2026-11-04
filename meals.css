@@ -202,3 +202,41 @@
   outline: 3px solid #b77700;
   outline-offset: 2px;
 }
+
+.meals-planner-bar {
+  padding: 8px 16px;
+}
+
+.meals-planner-bar .meals-btn {
+  width: 100%;
+}
+
+.meals-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+  font-size: var(--fs);
+}
+
+.meals-back {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.meals-remove {
+  background: none;
+  border: none;
+  color: #a33;
+  font-size: var(--fs-sm);
+  text-align: left;
+  cursor: pointer;
+  padding: 4px 0;
+}
