@@ -315,10 +315,10 @@
           All (${evaluated.length})
         </button>
         <button class="meals-chip ${activeFilter === "ready" ? "on" : ""}" data-filter="ready">
-          Ready to Cook
+          Ready
         </button>
         <button class="meals-chip ${activeFilter === "quick" ? "on" : ""}" data-filter="quick">
-          &lt; 15 min
+          Quick
         </button>
         <button class="meals-chip ${activeFilter === "beginner" ? "on" : ""}" data-filter="beginner">
           Beginner
